@@ -13,7 +13,7 @@
 <body>
 
    <div>
-       <a href ='/logout'>log out</a>
+       <!-- <a href ='/logout'>log out</a> -->
    </div> 
 
    {% with messages = get_flashed_messages(with_categories=True) %}
@@ -27,6 +27,8 @@
         </ul>
 
    {% endwith %}
+
+   <h1>Welcome to the blog page</h1>
 
     {% block content %}
     {% endblock %}
