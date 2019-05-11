@@ -48,13 +48,7 @@ def index():
 
     # owner = User.query.filter_by(email=session['email']).first()    
 
-    if request.method == 'POST':
-
-        title = request.form['title']
-        blog_body = request.form['body']
-        new_blog = Blog(title, blog_body)
-        db.session.add(new_blog)
-        db.session.commit()
+    
 
         
 
@@ -63,7 +57,38 @@ def index():
     # tasks = Task.query.all() this query gets all items in the database
     # tasks = Task.query.filter_by(completed=False, owner=owner).all()
     # completed_tasks = Task.query.filter_by(completed=True, owner= owner).all()
+    return render_template('base.html',title="The Blog!")
+
+@app.route('/newpost', methods=['POST', 'GET'])
+def new_blog():
+
+    
+    if request.method == 'POST':
+
+        title = request.form['title']
+        blog_body = request.form['body']
+        new_blog = Blog(title, blog_body)
+        db.session.add(new_blog)
+        db.session.commit()
+
+
+
+        
+
+        all_blogs = Blog.query.all()
+        return render_template('mainblog.html',title="The Blog!", all_blogs = all_blogs)
+
     return render_template('blog.html',title="The Blog!")
+
+
+
+@app.route('/blog', methods=['POST', 'GET'])
+def all_blog():
+
+    all_blogs = Blog.query.all()
+    return render_template('mainblog.html',title="The Blog!", all_blogs = all_blogs)
+
+
 
 
 # @app.route('/delete-task', methods=['POST'])
