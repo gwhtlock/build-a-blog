@@ -61,31 +61,49 @@ def index():
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def new_blog():
+    title =""
+    blog_body =""
+    title_error = ""
+    blog_error = ""
 
-    
     if request.method == 'POST':
 
         title = request.form['title']
         blog_body = request.form['body']
-        new_blog = Blog(title, blog_body)
-        db.session.add(new_blog)
-        db.session.commit()
+
+        if title == "":
+            title_error = "You didnt add a title silly"
+
+        if blog_body == "":
+            blog_error = "You didnt add a blog post Ya big dummy"
 
 
+        if title != "" and blog_body != "":
+            new_blog = Blog(title, blog_body)
+            db.session.add(new_blog)
+            db.session.commit()
+            # all_blogs = Blog.query.all()
+            the_blog = "/blog?id="+str(new_blog.id)
+            return redirect(the_blog)
 
-        
-
-        all_blogs = Blog.query.all()
-        return render_template('mainblog.html',title="The Blog!", all_blogs = all_blogs)
-
-    return render_template('blog.html',title="The Blog!")
+            # return render_template('mainblog.html',title="The Blog!", all_blogs = all_blogs)
+    
+    return render_template('blog.html',title="The Blog!", title_input = title, blog_body = blog_body, title_error = title_error, blog_error = blog_error)
 
 
 
 @app.route('/blog', methods=['POST', 'GET'])
-def all_blog():
+def see_the_blogs():
 
     all_blogs = Blog.query.all()
+
+    blog_id = request.args.get('id')
+
+    if (blog_id):
+        blog = Blog.query.get(blog_id)
+        return render_template('oneblog.html',title="The Blog!", blog = blog)
+
+
     return render_template('mainblog.html',title="The Blog!", all_blogs = all_blogs)
 
 

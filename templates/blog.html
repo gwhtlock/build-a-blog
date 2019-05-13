@@ -5,15 +5,18 @@
     <form method='post'>
         <label>
             blog title:
-            <input type="text" name='title' />
+            <input type="text" name='title' value = "{{title_input}}" />
         </label>
+
+        <p class = "error">{{title_error}}</p>
         <br />
         <br />
         <br />
         <label>
             blog body:
-            <textarea type="text" name='body'></textarea>
+            <textarea type="text" name="body" value = "{{blog_body}}">{{blog_body}}</textarea>
         </label>
+        <p class = "error">{{blog_error}}</p>
         <!-- <input type="submit" value='Add Task' /> -->
         <input type="submit" value='create post' />
     </form>
